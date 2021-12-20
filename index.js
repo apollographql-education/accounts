@@ -1,7 +1,8 @@
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer, gql } = require('apollo-server');
 const { buildSubgraphSchema } = require('@apollo/subgraph');
+const { readFileSync } = require('fs');
 
-const typeDefs = require('./schema');
+const typeDefs = gql(readFileSync('./accounts.graphql', { encoding: 'utf-8' }));
 const resolvers = require('./resolvers');
 const AccountsAPI = require('./datasources/accounts');
 
