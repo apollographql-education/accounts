@@ -10,7 +10,7 @@ jobs:
       APOLLO_KEY: ${{ secrets.APOLLO_KEY }}
       APOLLO_VCS_COMMIT: ${{ github.event.pull_request.head.sha }}
       GRAPH_REF: airlock-managed-fed
-      SUBGRAPH: listings
+      SUBGRAPH: accounts
     steps:
       - uses: actions/checkout@v2
       - name: Install Rover
