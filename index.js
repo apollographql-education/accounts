@@ -21,6 +21,11 @@ const server = new ApolloServer({
 const port = process.env.PORT || 4002;
 const subgraphName = 'accounts';
 
-server.listen({ port }).then(({ url }) => {
-  console.log(`🚀 Subgraph ${subgraphName} running at ${url}`);
-});
+server
+  .listen({ port })
+  .then(({ url }) => {
+    console.log(`🚀 Subgraph ${subgraphName} running at ${url}`);
+  })
+  .catch((err) => {
+    console.error(err);
+  });

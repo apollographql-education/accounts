@@ -1,4 +1,4 @@
-const { AuthenticationError } = require('apollo-server');
+const { AuthenticationError, ForbiddenError } = require('apollo-server');
 const authErrMessage = '*** you must be logged in ***';
 
 const resolvers = {
@@ -37,10 +37,6 @@ const resolvers = {
     },
   },
   User: {
-    // needed for federation
-    __resolveReference: (user, { dataSources }) => {
-      return dataSources.accountsAPI.getUser(user.id);
-    },
     __resolveType(user) {
       return user.role;
     },
