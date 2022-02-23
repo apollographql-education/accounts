@@ -1,8 +1,10 @@
-name: Publish Subgraph to Registry - Staging Variant
+# This job publishes the schema to the registry's staging variant
+name: Staging Publish Schema
 
+# this job runs after the Staging Deploy is completed
 on:
   workflow_run:
-    workflows: ['Deploy Subgraph to Staging']
+    workflows: ['Staging Deploy']
     types:
       - completed
 
@@ -26,4 +28,4 @@ jobs:
           echo "$HOME/.rover/bin" >> $GITHUB_PATH
       - name: Publish subgraph to production registry
         run: |
-          rover subgraph publish ${GRAPH_REF}@staging-test --schema ./${SUBGRAPH}.graphql --name $SUBGRAPH
+          rover subgraph publish ${GRAPH_REF}@staging --schema ./${SUBGRAPH}.graphql --name $SUBGRAPH

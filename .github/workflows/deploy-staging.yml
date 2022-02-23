@@ -1,5 +1,7 @@
-name: Deploy Subgraph to Staging
+# This job deploys the code to the staging Heroku app environment
+name: Staging Deploy
 
+# It runs after the PR is closed with a merge
 on:
   pull_request:
     types: [closed]

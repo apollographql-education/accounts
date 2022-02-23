@@ -1,8 +1,7 @@
-# .github/workflows/check.yml
+# This job runs a schema check for the staging and current variants
+name: Run schema checks
 
-name: Schema Checks
-
-# Controls when the action will run. Triggers the workflow on push or pull request events
+# It runs for every PR opened, updated and edited
 on:
   pull_request:
     types: [opened, synchronize, edited]
@@ -39,7 +38,7 @@ jobs:
           echo "$HOME/.rover/bin" >> $GITHUB_PATH
       - name: Run check against staging
         run: |
-          rover subgraph check ${GRAPH_REF}@staging-test --schema ./${SUBGRAPH}.graphql --name $SUBGRAPH
+          rover subgraph check ${GRAPH_REF}@staging --schema ./${SUBGRAPH}.graphql --name $SUBGRAPH
       - name: Run check against prod
         run: |
           rover subgraph check ${GRAPH_REF}@current --schema ./${SUBGRAPH}.graphql --name $SUBGRAPH
