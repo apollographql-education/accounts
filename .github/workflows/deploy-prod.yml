@@ -1,5 +1,7 @@
+# This job deploys the code to the production Heroku app environment
 name: Production Deploy
 
+# This job is triggered manually in the GitHub UI
 on: workflow_dispatch
 
 jobs:
