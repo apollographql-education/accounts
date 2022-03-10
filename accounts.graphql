@@ -1,7 +1,7 @@
 type Query {
   user(id: ID!): User
   "Currently logged-in user"
-  me(newarg: String!): User!
+  me: User!
   "test"
   anotherTest: String!
 }
