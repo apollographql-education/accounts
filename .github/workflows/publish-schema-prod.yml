@@ -9,7 +9,9 @@ on:
       - completed
 
 jobs:
-  build:
+  publish_schema:
+    name: Publish schema to current variant
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: apollo
     env:
