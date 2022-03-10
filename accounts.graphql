@@ -1,7 +1,9 @@
 type Query {
   user(id: ID!): User
   "Currently logged-in user"
-  me: User!
+  me(newarg: String!): User!
+  "test"
+  anotherTest: String!
 }
 
 interface User {
