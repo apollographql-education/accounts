@@ -5,7 +5,8 @@ name: Production Deploy
 on: workflow_dispatch
 
 jobs:
-  build:
+  deploy:
+    name: Deploy to production
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
