@@ -45,6 +45,9 @@ const resolvers = {
     __resolveReference: (user, { dataSources }) => {
       return dataSources.accountsAPI.getUser(user.id);
     },
+    coordinates: ({id}, _, {dataSources}) => {
+      return dataSources.accountsAPI.getGalacticCoordinates(id);
+    }
   },
   Guest: {
     __resolveReference: (user, { dataSources }) => {
