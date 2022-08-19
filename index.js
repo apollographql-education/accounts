@@ -16,20 +16,16 @@ const server = new ApolloServer({
     };
   },
   context: async ({ req }) => {
-    if (req.headers.authorization) {
-      const token = req.headers.authorization || '';
-      const userId = token.split(' ')[1]; // get the user name after 'Bearer '
-      if (userId) {
-        const { data } = await axios
-          .get(`https://rt-airlock-services-account.herokuapp.com/login/${userId}`)
-          .catch((error) => {
-            throw new AuthenticationError(error.message);
-          });
+    const token = req.headers.authorization || '';
+    const userId = token.split(' ')[1]; // get the user name after 'Bearer '
+    if (userId) {
+      const { data } = await axios
+        .get(`https://rt-airlock-services-account.herokuapp.com/login/${userId}`)
+        .catch((error) => {
+          throw new AuthenticationError(error.message);
+        });
 
-        return { userId: data.id, userRole: data.role };
-      }
-    } else {
-      return { userId: req.headers.userid, userRole: req.headers.userrole };
+      return { userId: data.id, userRole: data.role };
     }
   },
 });
