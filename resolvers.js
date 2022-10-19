@@ -1,5 +1,4 @@
-const { AuthenticationError, ForbiddenError } = require('apollo-server');
-const authErrMessage = '*** you must be logged in ***';
+const { AuthenticationError } = require('./utils/errors');
 
 const resolvers = {
   Query: {
@@ -11,16 +10,19 @@ const resolvers = {
       return user;
     },
     me: async (_, __, { dataSources, userId }) => {
-      if (!userId) throw new AuthenticationError(authErrMessage);
+      if (!userId) throw AuthenticationError();
       const user = await dataSources.accountsAPI.getUser(userId);
       return user;
     },
   },
   Mutation: {
     updateProfile: async (_, { updateProfileInput }, { dataSources, userId }) => {
-      if (!userId) throw new AuthenticationError(authErrMessage);
+      if (!userId) throw AuthenticationError();
       try {
-        const updatedUser = await dataSources.accountsAPI.updateUser({ userId, userInfo: updateProfileInput });
+        const updatedUser = await dataSources.accountsAPI.updateUser({
+          userId,
+          userInfo: updateProfileInput,
+        });
         return {
           code: 200,
           success: true,
@@ -31,7 +33,7 @@ const resolvers = {
         return {
           code: 400,
           success: false,
-          message: err,
+          message: err.message,
         };
       }
     },
@@ -45,9 +47,9 @@ const resolvers = {
     __resolveReference: (user, { dataSources }) => {
       return dataSources.accountsAPI.getUser(user.id);
     },
-    coordinates: ({id}, _, {dataSources}) => {
+    coordinates: ({ id }, _, { dataSources }) => {
       return dataSources.accountsAPI.getGalacticCoordinates(id);
-    }
+    },
   },
   Guest: {
     __resolveReference: (user, { dataSources }) => {

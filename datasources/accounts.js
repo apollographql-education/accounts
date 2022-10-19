@@ -1,4 +1,4 @@
-const { RESTDataSource } = require('apollo-datasource-rest');
+const { RESTDataSource } = require('@apollo/datasource-rest');
 
 class AccountsAPI extends RESTDataSource {
   constructor() {
@@ -17,7 +17,7 @@ class AccountsAPI extends RESTDataSource {
   getUser(userId) {
     return this.get(`user/${userId}`);
   }
-  
+
   getGalacticCoordinates(userId) {
     return this.get(`user/${userId}/coordinates`);
   }
