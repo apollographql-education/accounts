@@ -4,7 +4,7 @@ const { buildSubgraphSchema } = require('@apollo/subgraph');
 
 const { readFileSync } = require('fs');
 const axios = require('axios');
-const { gql } = require('graphql-tag');
+const gql = require('graphql-tag');
 
 const { AuthenticationError } = require('./utils/errors');
 
@@ -31,9 +31,11 @@ async function startApolloServer() {
 
         let userInfo = {};
         if (userId) {
-          const { data } = await axios.get(`http://localhost:4011/login/${userId}`).catch((error) => {
-            throw AuthenticationError();
-          });
+          const { data } = await axios
+            .get(`https://rt-airlock-services-account.herokuapp.com/login/${userId}`)
+            .catch((error) => {
+              throw AuthenticationError();
+            });
 
           userInfo = { userId: data.id, userRole: data.role };
         }
