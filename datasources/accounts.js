@@ -1,9 +1,10 @@
-const { RESTDataSource } = require('@apollo/datasource-rest');
+const { RESTDataSource } = require("@apollo/datasource-rest");
+require("dotenv").config();
 
 class AccountsAPI extends RESTDataSource {
   constructor() {
     super();
-    this.baseURL = process.env.SERVICE_URL || 'http://localhost:4011/';
+    this.baseURL = process.env.SERVICE_URL || "http://localhost:4011/";
   }
 
   login(username) {

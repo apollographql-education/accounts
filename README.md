@@ -6,8 +6,8 @@ This subgraph is responsible for all things user-related such as user accounts a
 
 Connected to a federated graph on Studio.
 
-## Setup
+## Running the `accounts` subgraph locally
 
 1. Run `npm install`.
 
-1. Run `npm start`.
+1. If you don't want to run the accounts REST API locally, create a `.env` file and copy the contents from `.env-example`.
