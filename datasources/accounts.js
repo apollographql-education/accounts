@@ -1,4 +1,6 @@
 const { RESTDataSource } = require('@apollo/datasource-rest');
+require('dotenv').config();
+
 
 class AccountsAPI extends RESTDataSource {
   constructor() {
