@@ -4,7 +4,7 @@ name: Staging Publish Schema
 # this job runs after the Staging Deploy is completed
 on:
   workflow_run:
-    workflows: ['Staging Deploy']
+    workflows: ["Staging Deploy"]
     types:
       - completed
 
@@ -20,7 +20,7 @@ jobs:
       GRAPH_ID: airlock-managed-fed
       SUBGRAPH: accounts
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4.1.5
       - name: Install Rover
         run: |
           curl -sSL https://rover.apollo.dev/nix/latest | sh
