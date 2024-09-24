@@ -11,7 +11,8 @@
     "start-dev": "nodemon index.js -e *.graphql,*.js",
     "start": "node index.js",
     "db:seed": "prisma migrate dev",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "postinstall": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",
