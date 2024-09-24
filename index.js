@@ -5,6 +5,7 @@ const { buildSubgraphSchema } = require("@apollo/subgraph");
 const { readFileSync } = require("fs");
 const axios = require("axios");
 const gql = require("graphql-tag");
+const { PrismaDbClient } = require("./datasources/client");
 
 const { AuthenticationError } = require("./utils/errors");
 
@@ -31,21 +32,14 @@ async function startApolloServer() {
 
         let userInfo = {};
         if (userId) {
-          const { data } = await axios
-            .get(
-              `https://rt-airlock-services-account.herokuapp.com/login/${userId}`
-            )
-            .catch((error) => {
-              throw AuthenticationError();
-            });
-
-          userInfo = { userId: data.id, userRole: data.role };
+          userInfo = { userId };
         }
 
         return {
           ...userInfo,
           dataSources: {
             accountsAPI: new AccountsAPI(),
+            db: new PrismaDbClient(),
           },
         };
       },

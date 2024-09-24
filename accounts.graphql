@@ -10,45 +10,33 @@ type Query {
   me: User!
 }
 
-interface User {
+type User @key(fields: "id") {
   id: ID!
   "The user's first and last name"
   name: String!
-  "The user's profile photo URL"
-  profilePicture: String!
-}
-
-type Host implements User @key(fields: "id") {
-  id: ID!
-  "The user's first and last name"
-  name: String!
-  "The user's profile photo URL"
-  profilePicture: String!
-  "The host's profile bio description, will be shown in the listing"
+  "The user's profile bio description, will be shown in the listing"
   profileDescription: String!
-  "Where the host is primarily located"
-  coordinates: GalacticCoordinates
-}
-
-type Guest implements User @key(fields: "id") {
-  id: ID!
-  "The user's first and last name"
-  name: String!
-  "The user's profile photo URL"
-  profilePicture: String!
-}
-
-"Coordinates in the galaxy"
-type GalacticCoordinates @shareable {
-  latitude: Float!
-  longitude: Float!
-  nickname: String
+  "The last recorded activity timestamp of the user"
+  lastActiveTime: String
+  "Whether or not a user is logged in"
+  isLoggedIn: Boolean!
 }
 
 type Mutation {
   ### Accounts
   "Updates the logged-in user's profile information"
   updateProfile(updateProfileInput: UpdateProfileInput): UpdateProfileResponse!
+  "Logs the user in or out"
+  changeLoggedInStatus: LoginStatusResponse
+}
+
+type LoginStatusResponse {
+  "Whether or not the login or logout succeeded"
+  success: Boolean!
+  "The timestamp of the login or logout"
+  time: String
+  "A message describing the status of the login or logout"
+  message: String!
 }
 
 interface MutationResponse {
@@ -63,9 +51,7 @@ interface MutationResponse {
 input UpdateProfileInput {
   "The user's first and last name"
   name: String
-  "The user's profile photo URL"
-  profilePicture: String
-  "The host's profile bio description, will be shown in the listing"
+  "The user's profile bio description, will be shown in the listing"
   profileDescription: String
 }
 

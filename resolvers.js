@@ -11,7 +11,7 @@ const resolvers = {
     },
     me: async (_, __, { dataSources, userId }) => {
       if (!userId) throw AuthenticationError();
-      const user = await dataSources.accountsAPI.getUser(userId);
+      const user = await dataSources.db.getUser(userId);
       return user;
     },
   },
@@ -41,23 +41,41 @@ const resolvers = {
         };
       }
     },
+    changeLoggedInStatus: async (_, __, { dataSources, userId }) => {
+      if (!userId) throw AuthenticationError();
+      try {
+        const userLoggedInOrOut = await dataSources.db.changeAuthStatus(
+          parseInt(userId)
+        );
+
+        const { lastActiveTime, isLoggedIn } = userLoggedInOrOut;
+
+        return {
+          success: true,
+          time: lastActiveTime,
+          message: `User was successfully ${
+            isLoggedIn ? "logged in" : "logged out"
+          }`,
+        };
+      } catch (err) {
+        return {
+          success: false,
+          time: null,
+          message: err.message,
+        };
+      }
+    },
   },
   User: {
-    __resolveType(user) {
-      return user.role;
+    __resolveReference: async ({ id }, { dataSources }) => {
+      const user = await dataSources.db.getUser(id);
+      return user;
     },
-  },
-  Host: {
-    __resolveReference: (user, { dataSources }) => {
-      return dataSources.accountsAPI.getUser(user.id);
+    profileDescription: (user) => {
+      return user.description;
     },
-    coordinates: ({ id }, _, { dataSources }) => {
-      return dataSources.accountsAPI.getGalacticCoordinates(id);
-    },
-  },
-  Guest: {
-    __resolveReference: (user, { dataSources }) => {
-      return dataSources.accountsAPI.getUser(user.id);
+    lastActiveTime: (user) => {
+      return user.lastActiveTime.toString();
     },
   },
 };
