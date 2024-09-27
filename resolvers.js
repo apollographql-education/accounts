@@ -44,9 +44,7 @@ const resolvers = {
     changeLoggedInStatus: async (_, __, { dataSources, userId }) => {
       if (!userId) throw AuthenticationError();
       try {
-        const userLoggedInOrOut = await dataSources.db.changeAuthStatus(
-          parseInt(userId)
-        );
+        const userLoggedInOrOut = await dataSources.db.changeAuthStatus(userId);
 
         const { lastActiveTime, isLoggedIn } = userLoggedInOrOut;
 
