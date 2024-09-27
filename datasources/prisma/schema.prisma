@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
+  username       String   @id
   name           String
   role           String   @default("Guest")
   description    String

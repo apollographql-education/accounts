@@ -71,6 +71,10 @@ const resolvers = {
       const user = await dataSources.db.getUser(id);
       return user;
     },
+    id: (parent) => {
+      // Get the username from the object in db and return it as id
+      return parent.username;
+    },
     profileDescription: (user) => {
       return user.description;
     },

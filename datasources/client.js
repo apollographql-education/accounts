@@ -3,12 +3,12 @@ const { PrismaClient } = require("@prisma/client");
 class PrismaDbClient {
   prisma = new PrismaClient();
 
-  getUser = async (id) => {
-    console.log("I got called with ", id);
+  getUser = async (username) => {
+    console.log("I got called with ", username);
     try {
       const user = await this.prisma.user.findUnique({
         where: {
-          id: parseInt(id),
+          username: username,
         },
       });
       console.log({ user });
@@ -19,17 +19,17 @@ class PrismaDbClient {
     }
   };
 
-  changeAuthStatus = async (userId) => {
+  changeAuthStatus = async (username) => {
     try {
       const { isLoggedIn } = await this.prisma.user.findUnique({
         where: {
-          id: userId,
+          username,
         },
       });
 
       return this.prisma.user.update({
         where: {
-          id: userId,
+          username,
         },
         data: {
           isLoggedIn: !isLoggedIn,
@@ -47,7 +47,7 @@ class PrismaDbClient {
     try {
       return this.prisma.user.update({
         where: {
-          id: userId,
+          username: userId,
         },
         data: {
           ...(name && { name }),
